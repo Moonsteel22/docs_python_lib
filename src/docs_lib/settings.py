@@ -148,4 +148,12 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000/api")
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+
+LOGIN_REDIRECT_URL = BASE_URL + "/profile"
+
+LOGOUT_REDIRECT_URL = BASE_URL
+
 CREDENTIALS_AUTH = "credentials_auth.json"
