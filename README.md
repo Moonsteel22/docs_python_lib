@@ -4,7 +4,7 @@ Set of methods to working with google docs api
 ## Local
 
 1. Install python 3.9 locally on your system from [the official web-page](https://www.python.org/).
-2. Clone the repository and change current directory to `backend/`.
+2. Clone the repository
     ```
    git clone https://github.com/Moonsteel22/docs_python_lib.git
    ```
