@@ -101,11 +101,9 @@ class DocumentHandler:
                         continue
                     else:
                         return True
-                return False
             if isinstance(node, list):
                 for element in node:
                     return _is_here(element)
-                return False
             return False
 
         if is_many:
