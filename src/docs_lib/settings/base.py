@@ -119,24 +119,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": [
-            "profile",
-            "email",
-        ],
-        "AUTH_PARAMS": {
-            "access_type": "online",
-        },
-    },
-}
-
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000/api")
-
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
-
-LOGIN_REDIRECT_URL = BASE_URL + "/profile"
-
-LOGOUT_REDIRECT_URL = BASE_URL
-
-CREDENTIALS_AUTH = "credentials_auth.json"

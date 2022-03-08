@@ -1,6 +1,6 @@
 import os
 
-from base import BASE_URL
+from docs_lib.settings.base import BASE_URL
 
 # Social Account Settings
 
@@ -24,3 +24,5 @@ LOGIN_REDIRECT_URL = BASE_URL + "/profile"
 LOGOUT_REDIRECT_URL = BASE_URL
 
 GENERATED_CVS_FOLDER = os.environ.get("GENERATED_CVS_FOLDER", "default_folder")
+
+CREDENTIALS_AUTH = os.environ.get("CREDENTIALS_AUTH", "credentials_auth.json")
