@@ -1,4 +1,5 @@
 from docs_lib.settings.base import *
+from docs_lib.settings.google import *
 
 DEBUG = bool(os.environ.get("DEBUG", True))
 
