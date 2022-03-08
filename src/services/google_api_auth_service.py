@@ -1,6 +1,7 @@
 import os.path
 
-from django.conf import settings
+from docs_lib.settings.google import CREDENTIALS_SERVICE
+from docs_lib.settings.google import SCOPES
 from google.auth.transport.requests import Request
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -28,11 +29,11 @@ class GoogleApiServices(Singleton):
     def __init__(self):
         self._docs_service: Resource = None
         self._drive_service: Resource = None
-        if os.path.exists(settings.CREDENTIALS_SERVICE):
+        if os.path.exists(CREDENTIALS_SERVICE):
             creds: service_account.Credentials = (
                 service_account.Credentials.from_service_account_file(
-                    settings.CREDENTIALS_SERVICE,
-                    scopes=settings.SCOPES,
+                    CREDENTIALS_SERVICE,
+                    scopes=SCOPES,
                 )
             )
             self._creds = creds

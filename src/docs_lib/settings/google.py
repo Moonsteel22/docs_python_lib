@@ -16,6 +16,11 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
+SCOPES = [
+    "https://www.googleapis.com/auth/documents.readonly",
+    "https://www.googleapis.com/auth/drive",
+]
+
 
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
@@ -25,4 +30,8 @@ LOGOUT_REDIRECT_URL = BASE_URL
 
 GENERATED_CVS_FOLDER = os.environ.get("GENERATED_CVS_FOLDER", "default_folder")
 
+# Credentials files
+
 CREDENTIALS_AUTH = os.environ.get("CREDENTIALS_AUTH", "credentials_auth.json")
+
+CREDENTIALS_SERVICE = os.environ.get("CREDENTIALS_SERVICE", "credentials_service.json")
