@@ -30,6 +30,4 @@ LOGOUT_REDIRECT_URL = BASE_URL
 
 GENERATED_CVS_FOLDER = os.environ.get("GENERATED_CVS_FOLDER", "default_folder")
 
-# Credentials file
-
 CREDENTIALS_SERVICE = os.environ.get("CREDENTIALS_SERVICE", "credentials_service.json")
