@@ -1,4 +1,4 @@
-from docs_python_lib.src.services.types.base import DocumentRequest
+from services.types.base import DocumentRequest
 
 
 def generate_request(request: DocumentRequest):

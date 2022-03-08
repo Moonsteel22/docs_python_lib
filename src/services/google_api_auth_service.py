@@ -37,6 +37,10 @@ class GoogleApiServices(Singleton):
                 )
             )
             self._creds = creds
+        else:
+            raise FileNotFoundError(
+                "Please provide credentials_service.json file for Google services",
+            )
 
     @property
     def docs_service(self):
