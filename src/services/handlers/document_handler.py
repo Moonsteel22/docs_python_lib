@@ -56,7 +56,7 @@ class DocumentHandler:
             )
         return end_index, requests
 
-    def refactored_insert_table_row(
+    def insert_table_row(
         self,
         columns: int,
         table_cell_location: TableCellLocation,
