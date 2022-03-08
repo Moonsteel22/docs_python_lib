@@ -1,10 +1,9 @@
-import json
+import os
 
 from allauth.socialaccount.models import SocialApp
 from django.contrib.sites.models import Site
 from django.db import migrations
 from django.db import transaction
-from docs_lib.settings.google import CREDENTIALS_AUTH
 from dotenv import find_dotenv
 from dotenv import load_dotenv
 
@@ -17,16 +16,12 @@ load_dotenv(find_dotenv())
 
 
 def set_application(apps, schema_editor):
-    # TODO: Descibe creds class and use it instead dict
-    with open(CREDENTIALS_AUTH) as j:
-        creds = json.load(j)["web"]
-
     with transaction.atomic():
         app = SocialApp(
             provider=PROVIDER_ID,
             name=APP_NAME,
-            secret=creds["client_secret"],
-            client_id=creds["client_id"],
+            secret=os.environ.get("CLIENT_SECRET"),
+            client_id=os.environ.get("CLIENT_ID"),
         )
         app.save()
         site = Site(domain=SITE_DOMAIN, name=SITE_NAME)
