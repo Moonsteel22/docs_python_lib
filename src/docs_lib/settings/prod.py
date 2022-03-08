@@ -1,4 +1,4 @@
-from base import *
+from docs_lib.settings.base import *
 
 ALLOWED_HOSTS: list[str] = []
 

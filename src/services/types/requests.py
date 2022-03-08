@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from dataclasses import field
 
-from services.core.types.base import DocumentRequest
-from services.core.types.classes import EndOfSegmentation
-from services.core.types.classes import Location
-from services.core.types.classes import ParagraphStyle
-from services.core.types.classes import Range
-from services.core.types.classes import SubstringMatchCriteria
-from services.core.types.classes import TableCellLocation
-from services.core.types.classes import TextStyle
-from services.core.types.enum import BulletGlyphPreset
+from services.types.base import DocumentRequest
+from services.types.classes import EndOfSegmentation
+from services.types.classes import Location
+from services.types.classes import ParagraphStyle
+from services.types.classes import Range
+from services.types.classes import SubstringMatchCriteria
+from services.types.classes import TableCellLocation
+from services.types.classes import TextStyle
+from services.types.enum import BulletGlyphPreset
 
 
 @dataclass

@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from dataclasses import field
 
-from services.core.types.base import DocumentObject
-from services.core.types.enum import Alignment
-from services.core.types.enum import BaselineOffset
-from services.core.types.enum import ContentDirection
-from services.core.types.enum import DashStyle
-from services.core.types.enum import NamedStyleType
-from services.core.types.enum import SpacingMode
-from services.core.types.enum import TabStopAlignment
-from services.core.types.enum import Unit
+from services.types.base import DocumentObject
+from services.types.enum import Alignment
+from services.types.enum import BaselineOffset
+from services.types.enum import ContentDirection
+from services.types.enum import DashStyle
+from services.types.enum import NamedStyleType
+from services.types.enum import SpacingMode
+from services.types.enum import TabStopAlignment
+from services.types.enum import Unit
 
 
 # COMMON CLASSES
