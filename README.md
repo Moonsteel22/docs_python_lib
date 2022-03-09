@@ -2,9 +2,12 @@
 Set of methods to working with google docs api
 
 ## Docker
-1. Follow step 6 in <b>Local</b> part (Get Google API Oauth keys)
-2. 
-
+1. Follow steps 6-9 in <b>Local</b> part (Get Google API Oauth keys)
+2. Run
+    ```
+    sudo docker-compose --env-file .env up
+    ```
+    
 ## Local
 1. Install python 3.9 locally on your system from [the official web-page](https://www.python.org/).
 2. Clone the repository
@@ -33,7 +36,7 @@ Set of methods to working with google docs api
     - Create credentials for service account: https://developers.google.com/workspace/guides/create-credentials#create_credentials_for_a_service_account
     - Download credentials as json and rename it to credentials_service.json
     - Replace credentials_service.json to /src
-8. Create `.env` file, copy-paste content of `.env.example` file into `.env` and replace `GOOGLE_SECRET_KEY` and `GOOGLE_CLIENT_ID` values with your Google OAuth keys.
+8. Create `.env` file, copy-paste content of `.env.example` file into `.env` and replace `GOOGLE_AUTH_SECRET_KEY` and `GOOGLE_AUTH_CLIENT_ID` values with your Google OAuth keys.
 9. Change `BASE_URL` and `SECRET_KEY` values in `.env` if you want your app to be explorable not only from your local machine.
 10. Run migrations `python3 manage.py migrate`
 11. Create super user `python3 manage.py createsuperuser`
