@@ -20,7 +20,7 @@ def set_application(apps, schema_editor):
         app = SocialApp(
             provider=PROVIDER_ID,
             name=APP_NAME,
-            secret=os.environ.get("GOOGLE_AUTH_SECRET_KEY"),
+            secret=os.environ.get("GOOGLE_AUTH_CLIENT_SECRET"),
             client_id=os.environ.get("GOOGLE_AUTH_CLIENT_ID"),
         )
         app.save()

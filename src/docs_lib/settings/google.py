@@ -24,12 +24,10 @@ SCOPES = [
 
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
-LOGIN_REDIRECT_URL = BASE_URL + "/profile"
+LOGIN_REDIRECT_URL = BASE_URL + "/accounts/profile"
 
 LOGOUT_REDIRECT_URL = BASE_URL
 
 GENERATED_CVS_FOLDER = os.environ.get("GENERATED_CVS_FOLDER", "default_folder")
-
-# Credentials file
 
 CREDENTIALS_SERVICE = os.environ.get("CREDENTIALS_SERVICE", "credentials_service.json")
