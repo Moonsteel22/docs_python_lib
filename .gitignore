@@ -4,6 +4,7 @@
 
 ### Google ###
 credentials_auth.json
+credentials_service.json
 
 ### Django ###
 *.log

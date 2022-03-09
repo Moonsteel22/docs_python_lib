@@ -1,13 +1,17 @@
-from docs_python_lib.src.services.functions import generate_request
-from docs_python_lib.src.services.google_api_auth_service import GoogleApiServices
-from docs_python_lib.src.services.types.base import DocumentRequest
-from docs_python_lib.src.services.types.classes import Location
-from docs_python_lib.src.services.types.classes import Range
-from docs_python_lib.src.services.types.classes import TableCellLocation
-from docs_python_lib.src.services.types.classes import TextStyle
-from docs_python_lib.src.services.types.requests import InsertTableRow
-from docs_python_lib.src.services.types.requests import InsertText
-from docs_python_lib.src.services.types.requests import UpdateTextStyle
+import re
+from typing import Optional
+from typing import Union
+
+from src.services.functions import generate_request
+from src.services.google_api_auth_service import GoogleApiServices
+from src.services.types.base import DocumentRequest
+from src.services.types.classes import Location
+from src.services.types.classes import Range
+from src.services.types.classes import TableCellLocation
+from src.services.types.classes import TextStyle
+from src.services.types.requests import InsertTableRow
+from src.services.types.requests import InsertText
+from src.services.types.requests import UpdateTextStyle
 
 
 class DocumentHandler:
@@ -65,3 +69,51 @@ class DocumentHandler:
         return 1 + 2 * columns, [
             InsertTableRow(table_cell_location=table_cell_location, insert_below=True),
         ]
+
+    def get_doc_json(self) -> dict:
+        return (
+            self.google_services.docs_service.documents()
+            .get(documentId=self.documentId)
+            .execute()
+        )
+
+    def get_path(
+        self,
+        regex: str,
+        is_many: bool = False,
+    ) -> Optional[Union[dict, list[dict]]]:
+        """
+        Return dict with all struct of provided regex
+        is_many:
+            if True, function finds all matched texts and
+            return all structs
+        """
+
+        content = self.get_doc_json()["body"]["content"]
+
+        def _is_here(node) -> Optional[bool]:
+            if isinstance(node, dict):
+                for key, value in node.items():
+                    if key == "content" and isinstance(value, str):
+                        if re.search(regex, value):
+                            return True
+                    elif not _is_here(value):
+                        continue
+                    else:
+                        return True
+            if isinstance(node, list):
+                for element in node:
+                    return _is_here(element)
+            return False
+
+        if is_many:
+            elements: list = []
+            for element in content:
+                if _is_here(element):
+                    elements.append(element)
+            return elements
+        else:
+            for element in content:
+                if _is_here(element):
+                    return element
+        return None
