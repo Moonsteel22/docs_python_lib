@@ -3,7 +3,8 @@ Set of methods to working with google docs api
 
 ## Docker
 1. Follow steps 6-9 in <b>Local</b> part (Get Google API Oauth keys)
-2. Run
+2. Install docker-compose - https://docs.docker.com/compose/install/
+3. Run
     ```
     sudo docker-compose --env-file .env up
     ```
