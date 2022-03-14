@@ -2,17 +2,22 @@ import re
 from typing import Optional
 from typing import Union
 
+from services.types.enum import BulletGlyphPreset
+
 from src.services.functions import generate_request
 from src.services.google_api_auth_service import GoogleApiServices
 from src.services.types.base import DocumentRequest
 from src.services.types.classes import Location
+from src.services.types.classes import ParagraphStyle
 from src.services.types.classes import Range
 from src.services.types.classes import SubstringMatchCriteria
 from src.services.types.classes import TableCellLocation
 from src.services.types.classes import TextStyle
+from src.services.types.requests import CreateParagraphBullets
 from src.services.types.requests import InsertTableRow
 from src.services.types.requests import InsertText
 from src.services.types.requests import ReplaceAllText
+from src.services.types.requests import UpdateParagraphStyle
 from src.services.types.requests import UpdateTextStyle
 
 
@@ -161,3 +166,126 @@ class DocumentHandler:
             _, request = self.fill_tag(tag, value)
             requests += request
         return -1, requests
+
+    def insert_list_element(
+        self,
+        location: Location,
+        text: str,
+        bullet: BulletGlyphPreset,
+        bullet_style: TextStyle,
+        text_style: TextStyle,
+        bullet_paragraph_style: ParagraphStyle,
+    ) -> tuple[int, list[DocumentRequest]]:
+        """
+        Allows to insert list element to document
+
+        Also it can be used to add element with
+        bullet style and text style. This feature
+        is supported via extra space between text
+        and bullet.
+
+        Parameters
+        ----------
+        location: Location
+            position of text in document
+        text: str
+            text to be placed in list element
+        bullet: BulletGlyphPreset
+            bullet type
+        bullet_style: TextStyle
+            bullet style (color for example)
+        text_style: TextStyle
+            text style
+        bullet_paragraph_style: ParagraphStyle
+            bullet style as paragraph (size, space between text, etc.)
+        """
+
+        text = " " + text + "\n"
+        end_index = location.index + len(text)
+
+        bullet_range = Range(
+            start_index=location.index,
+            end_index=end_index,
+            segment_id="",
+        )
+
+        text_range = Range(
+            start_index=location.index + 1,
+            end_index=end_index,
+            segment_id="",
+        )
+
+        return end_index, [
+            InsertText(text=text, location=location),
+            CreateParagraphBullets(range=bullet_range, bullet_preset=bullet),
+            UpdateParagraphStyle(
+                paragraph_style=bullet_paragraph_style,
+                range=bullet_range,
+            ),
+            UpdateTextStyle(text_style=bullet_style, range=bullet_range),
+            UpdateTextStyle(text_style=text_style, range=text_range),
+        ]
+
+    def insert_list(
+        self,
+        start_location: Location,
+        header: str,
+        header_style: TextStyle,
+        text_style: TextStyle,
+        paragraph_style: ParagraphStyle,
+        bullet_style: TextStyle,
+        bullet_glyph: BulletGlyphPreset,
+        elements: list[str],
+    ) -> tuple[int, list[DocumentRequest]]:
+        """Create list with header and elements
+
+        Parameters
+        ----------
+        start_index: int
+            index, where we want to put element
+        header: str
+            Title of list
+
+        elements: List[str]
+            list of text
+
+        bullet_preset: str
+            type of bullet_preset, which will be used for list elements
+
+        Returns
+        -------
+            int
+                end index of added element
+            list[DocumentRequest]
+                list of requests to update
+        """
+
+        requests = []
+        header += "\n"
+
+        requests.append(InsertText(text=header, location=start_location))
+        requests.append(
+            UpdateTextStyle(
+                text_style=header_style,
+                range=Range(
+                    start_index=start_location.index,
+                    end_index=start_location.index + len(header),
+                    segment_id="",
+                ),
+            ),
+        )
+
+        next_element_index = start_location.index + len(header)
+
+        for text in elements:
+            next_element_index, element_requests = self.insert_list_element(
+                location=Location(segment_id="", index=next_element_index),
+                text=text,
+                bullet=bullet_glyph,
+                bullet_style=bullet_style,
+                text_style=text_style,
+                bullet_paragraph_style=paragraph_style,
+            )
+            requests += element_requests
+
+        return next_element_index, requests
