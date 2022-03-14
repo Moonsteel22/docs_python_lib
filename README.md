@@ -1,8 +1,15 @@
 # docs_python_lib
 Set of methods to working with google docs api
 
+## Docker
+1. Follow steps 6-9 in <b>Local</b> part (Get Google API Oauth keys)
+2. Install docker-compose - https://docs.docker.com/compose/install/
+3. Run
+    ```
+    sudo docker-compose --env-file .env up
+    ```
+    
 ## Local
-
 1. Install python 3.9 locally on your system from [the official web-page](https://www.python.org/).
 2. Clone the repository
     ```
@@ -25,10 +32,15 @@ Set of methods to working with google docs api
     - Choose OAuth client ID, choose "Desktop app" as an application type, type any name and download provided credentials as json file (you can find it on the creds page OAuth 2.0 Client IDs table). Name this file as `credentials.json` and place it in the root of the backend part.
     - Choose OAuth client ID, choose "Web application" as an application type, type any name, add `http://127.0.0.1:8000/api/accounts/google/login/callback/` as an Authorized redirect URI (hostname may be another if you want your app to be explorable not only from your local machine).
     - Copy-paste provided Client ID and Client secret, they will be required on the next step
-7. Create `.env` file, copy-paste content of `.env.example` file into `.env` and replace `GOOGLE_SECRET_KEY` and `GOOGLE_CLIENT_ID` values with your Google OAuth keys.
-8. Change `BASE_URL` and `SECRET_KEY` values in `.env` if you want your app to be explorable not only from your local machine.
-9. Run migrations `python3 manage.py migrate`
-10. Create super user `python3 manage.py createsuperuser`
-11. Run server `python3 manage.py runserver 0.0.0.0:8000`
-12. You will be asked to confirm google API credentials - follow instructions in the console.
-13. Open back-end part on `127.0.0.1:8000` locally.
+7. Get service credentials
+    - Go to: https://developers.google.com/workspace/guides/create-credentials#service-account
+    - Create credentials for service account: https://developers.google.com/workspace/guides/create-credentials#create_credentials_for_a_service_account
+    - Download credentials as json and rename it to credentials_service.json
+    - Replace credentials_service.json to /src
+8. Create `.env` file, copy-paste content of `.env.example` file into `.env` and replace `GOOGLE_AUTH_SECRET_KEY` and `GOOGLE_AUTH_CLIENT_ID` values with your Google OAuth keys.
+9. Change `BASE_URL` and `SECRET_KEY` values in `.env` if you want your app to be explorable not only from your local machine.
+10. Run migrations `python3 manage.py migrate`
+11. Create super user `python3 manage.py createsuperuser`
+12. Run server `python3 manage.py runserver 0.0.0.0:8000`
+13. You will be asked to confirm google API credentials - follow instructions in the console.
+14. Open back-end part on `127.0.0.1:8000` locally.
