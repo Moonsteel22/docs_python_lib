@@ -7,10 +7,12 @@ from src.services.google_api_auth_service import GoogleApiServices
 from src.services.types.base import DocumentRequest
 from src.services.types.classes import Location
 from src.services.types.classes import Range
+from src.services.types.classes import SubstringMatchCriteria
 from src.services.types.classes import TableCellLocation
 from src.services.types.classes import TextStyle
 from src.services.types.requests import InsertTableRow
 from src.services.types.requests import InsertText
+from src.services.types.requests import ReplaceAllText
 from src.services.types.requests import UpdateTextStyle
 
 
@@ -117,3 +119,45 @@ class DocumentHandler:
                 if _is_here(element):
                     return element
         return None
+
+    def fill_tag(
+        self,
+        tag: str,
+        value: str,
+    ) -> tuple[int, list[DocumentRequest]]:
+        """
+        Allows to fill tags in document.
+        Tag - text in document, which define
+        some pattern
+
+        Parameters
+        ----------
+        tag: str
+            text to be replaced
+        value: str
+            text to replace
+        """
+        return -1, [
+            ReplaceAllText(
+                replace_text=value,
+                contains_text=SubstringMatchCriteria(text=tag, match_case=True),
+            ),
+        ]
+
+    def fill_tags(
+        self,
+        replacements: dict[str, str],
+    ) -> tuple[int, list[DocumentRequest]]:
+        """
+        For multi-replacing tags
+
+        Parameters
+        ----------
+        replacements: dict[str,str]
+            Dict of pairs {'tag':'value'}
+        """
+        requests = []
+        for tag, value in replacements.items():
+            _, request = self.fill_tag(tag, value)
+            requests += request
+        return -1, requests
